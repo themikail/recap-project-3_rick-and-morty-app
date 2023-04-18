@@ -1,3 +1,5 @@
+import { createCharacterCard } from "./components/card/card";
+
 const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
   '[data-js="search-bar-container"]'
@@ -12,3 +14,22 @@ const pagination = document.querySelector('[data-js="pagination"]');
 const maxPage = 1;
 const page = 1;
 const searchQuery = "";
+
+// Fetch the first 20 characters
+
+async function fetchCaracters() {
+  cardContainer.innerHTML = "";
+
+  const response = await fetch(
+    "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
+  );
+  const data = await response.json();
+  const characters = data.results.slice(0, 20);
+
+  characters.forEach((character) => {
+    const card = createCharacterCard(character);
+    cardContainer.appendChild(card);
+  });
+}
+
+fetchCaracters();
